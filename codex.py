@@ -3,7 +3,7 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
 from PyQt5.QtGui import QPen, QBrush, QColor
-from PyQt5.QtWidgets import QGraphicsScene, QFileDialog, QMessageBox
+from PyQt5.QtWidgets import QGraphicsScene, QFileDialog, QMessageBox, QColorDialog
 import networkx as nx
 import numpy as np
 import copy
@@ -35,10 +35,8 @@ class Ui_MainWindow(object):
         self.menubar.setObjectName("menubar")
         self.menuFile = QtWidgets.QMenu(self.menubar)
         self.menuFile.setObjectName("menuFile")
-        self.menuEdge_color = QtWidgets.QMenu(self.menubar)
-        self.menuEdge_color.setObjectName("menuEdge_color")
-        self.menuNode_color = QtWidgets.QMenu(self.menubar)
-        self.menuNode_color.setObjectName("menuNode_color")
+        self.menuColor = QtWidgets.QMenu(self.menubar)
+        self.menuColor.setObjectName("menuColor")
         self.menuAlgorithms = QtWidgets.QMenu(self.menubar)
         self.menuAlgorithms.setObjectName("menuAlgorithms")
         
@@ -47,16 +45,12 @@ class Ui_MainWindow(object):
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
         self.actionAdd_node = QtWidgets.QAction(MainWindow)
-        #self.actionAdd_node.setCheckable(True)
         self.actionAdd_node.setObjectName("actionAdd_node")
         self.actionAdd_edge = QtWidgets.QAction(MainWindow)
-        #self.actionAdd_edge.setCheckable(True)
         self.actionAdd_edge.setObjectName("actionAdd_edge")
         self.actionDelete_node = QtWidgets.QAction(MainWindow)
-        #self.actionDelete_node.setCheckable(True)
         self.actionDelete_node.setObjectName("actionDelete_node")
         self.actionDelete_edge = QtWidgets.QAction(MainWindow)
-        #self.actionDelete_edge.setCheckable(True)
         self.actionDelete_edge.setObjectName("actionDelete_edge")
         self.actionMax_matching = QtWidgets.QAction(MainWindow)
         self.actionMax_matching.setObjectName("actionMax_matching")
@@ -68,6 +62,8 @@ class Ui_MainWindow(object):
         self.actionIndependent_Set.setObjectName("actionIndependent_Set")
         self.actionHamiltonian_Path = QtWidgets.QAction(MainWindow)
         self.actionHamiltonian_Path.setObjectName("actionHamiltonian_Path")
+        self.actionMax_Clique = QtWidgets.QAction(MainWindow)
+        self.actionMax_Clique.setObjectName("actionMax_Clique")
         self.actionMove_node = QtWidgets.QAction(MainWindow)
         self.actionMove_node.setObjectName("actionMove_node")
         self.actionSave_File = QtWidgets.QAction(MainWindow)
@@ -78,38 +74,10 @@ class Ui_MainWindow(object):
         self.actionOpen_File.setShortcut("Ctrl+O")
         self.actionClear_Scene = QtWidgets.QAction(MainWindow)
         self.actionClear_Scene.setObjectName("actionClear_Scene")
-        self.actionBlack = QtWidgets.QAction(MainWindow)
-        self.actionBlack.setObjectName("actionBlack")
-        self.actionRed = QtWidgets.QAction(MainWindow)
-        self.actionRed.setObjectName("actionRed")
-        self.actionGreen = QtWidgets.QAction(MainWindow)
-        self.actionGreen.setObjectName("actionGreen")
-        self.actionBlue = QtWidgets.QAction(MainWindow)
-        self.actionBlue.setObjectName("actionBlue")
-        self.actionBlack_2 = QtWidgets.QAction(MainWindow)
-        self.actionBlack_2.setObjectName("actionBlack_2")
-        self.actionRed_2 = QtWidgets.QAction(MainWindow)
-        self.actionRed_2.setObjectName("actionRed_2")
-        self.actionGreen_2 = QtWidgets.QAction(MainWindow)
-        self.actionGreen_2.setObjectName("actionGreen_2")
-        self.actionBlue_2 = QtWidgets.QAction(MainWindow)
-        self.actionBlue_2.setObjectName("actionBlue_2")
-        self.actionBlack_3 = QtWidgets.QAction(MainWindow)
-        self.actionBlack_3.setObjectName("actionBlack_3")
-        self.actionYellow_3 = QtWidgets.QAction(MainWindow)
-        self.actionYellow_3.setObjectName("actionYellow_3")
-        self.actionGreen_3 = QtWidgets.QAction(MainWindow)
-        self.actionGreen_3.setObjectName("actionGreen_3")
-        self.actionBlue_3 = QtWidgets.QAction(MainWindow)
-        self.actionBlue_3.setObjectName("actionBlue_3")
-        self.actionBlack_4 = QtWidgets.QAction(MainWindow)
-        self.actionBlack_4.setObjectName("actionBlack_4")
-        self.actionYellow_4 = QtWidgets.QAction(MainWindow)
-        self.actionYellow_4.setObjectName("actionYellow_4")
-        self.actionGreen_4 = QtWidgets.QAction(MainWindow)
-        self.actionGreen_4.setObjectName("actionGreen_4")
-        self.actionBlue_4 = QtWidgets.QAction(MainWindow)
-        self.actionBlue_4.setObjectName("actionBlue_4")
+        self.actionNode_Color = QtWidgets.QAction(MainWindow)
+        self.actionNode_Color.setObjectName("actionNode_Color")
+        self.actionEdge_Color = QtWidgets.QAction(MainWindow)
+        self.actionEdge_Color.setObjectName("actionEdge_Color")
         self.menuFile.addAction(self.actionAdd_node)
         self.menuFile.addAction(self.actionAdd_edge)
         self.menuFile.addAction(self.actionDelete_node)
@@ -120,20 +88,14 @@ class Ui_MainWindow(object):
         self.menuAlgorithms.addAction(self.actionVertex_cover)
         self.menuAlgorithms.addAction(self.actionIndependent_Set)
         self.menuAlgorithms.addAction(self.actionHamiltonian_Path)
+        self.menuAlgorithms.addAction(self.actionMax_Clique)
         self.menuFile.addAction(self.actionSave_File)
         self.menuFile.addAction(self.actionOpen_File)
         self.menuFile.addAction(self.actionClear_Scene)
-        self.menuEdge_color.addAction(self.actionBlack_3)
-        self.menuEdge_color.addAction(self.actionYellow_3)
-        self.menuEdge_color.addAction(self.actionGreen_3)
-        self.menuEdge_color.addAction(self.actionBlue_3)
-        self.menuNode_color.addAction(self.actionBlack_4)
-        self.menuNode_color.addAction(self.actionYellow_4)
-        self.menuNode_color.addAction(self.actionGreen_4)
-        self.menuNode_color.addAction(self.actionBlue_4)
+        self.menuColor.addAction(self.actionEdge_Color)
+        self.menuColor.addAction(self.actionNode_Color)
         self.menubar.addAction(self.menuFile.menuAction())
-        self.menubar.addAction(self.menuEdge_color.menuAction())
-        self.menubar.addAction(self.menuNode_color.menuAction())
+        self.menubar.addAction(self.menuColor.menuAction())
         self.menubar.addAction(self.menuAlgorithms.menuAction())
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -142,8 +104,7 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
-        self.menuEdge_color.setTitle(_translate("MainWindow", "Edge color"))
-        self.menuNode_color.setTitle(_translate("MainWindow", "Node color"))
+        self.menuColor.setTitle(_translate("MainWindow", "Color"))
         self.menuAlgorithms.setTitle(_translate("MainWindow", "Algorithms"))
         self.actionAdd_node.setText(_translate("MainWindow", "Add node"))
         self.actionAdd_edge.setText(_translate("MainWindow", "Add edge"))
@@ -155,34 +116,13 @@ class Ui_MainWindow(object):
         self.actionVertex_cover.setText(_translate("MainWindow","Vertex Cover"))
         self.actionIndependent_Set.setText(_translate("MainWindow", "Independent Set"))
         self.actionHamiltonian_Path.setText(_translate("MainWindow", "Hamiltonian Path"))
+        self.actionMax_Clique.setText(_translate("MainWindow", "Max Clique"))
         self.actionSave_File.setText(_translate("MainWindow", "Save File"))
         self.actionOpen_File.setText(_translate("MainWindow", "Open File"))
         self.actionClear_Scene.setText(_translate("MainWindow", "Clear Scene"))
         self.actionDelete_edge.setStatusTip(_translate("MainWindow", "Click on the 2 corresponding nodes"))
-        self.actionBlack.setText(_translate("MainWindow", "Black"))
-        self.actionRed.setText(_translate("MainWindow", "Red"))
-        self.actionGreen.setText(_translate("MainWindow", "Green"))
-        self.actionBlue.setText(_translate("MainWindow", "Blue"))
-        self.actionBlack_2.setText(_translate("MainWindow", "Black"))
-        self.actionRed_2.setText(_translate("MainWindow", "Red"))
-        self.actionGreen_2.setText(_translate("MainWindow", "Green"))
-        self.actionBlue_2.setText(_translate("MainWindow", "Blue"))
-        self.actionBlack_3.setText(_translate("MainWindow", "Black"))
-        self.actionBlack_3.setToolTip(_translate("MainWindow", "eBlack"))
-        self.actionYellow_3.setText(_translate("MainWindow", "Yellow"))
-        self.actionYellow_3.setToolTip(_translate("MainWindow", "eYellow"))
-        self.actionGreen_3.setText(_translate("MainWindow", "Green"))
-        self.actionGreen_3.setToolTip(_translate("MainWindow", "eGreen"))
-        self.actionBlue_3.setText(_translate("MainWindow", "Blue"))
-        self.actionBlue_3.setToolTip(_translate("MainWindow", "eBlue"))
-        self.actionBlack_4.setText(_translate("MainWindow", "Black"))
-        self.actionBlack_4.setToolTip(_translate("MainWindow", "nBlack"))
-        self.actionYellow_4.setText(_translate("MainWindow", "Yellow"))
-        self.actionYellow_4.setToolTip(_translate("MainWindow", "nYellow"))
-        self.actionGreen_4.setText(_translate("MainWindow", "Green"))
-        self.actionGreen_4.setToolTip(_translate("MainWindow", "nGreen"))
-        self.actionBlue_4.setText(_translate("MainWindow", "Blue"))
-        self.actionBlue_4.setToolTip(_translate("MainWindow", "nBlue"))
+        self.actionEdge_Color.setText(_translate("MainWindow", "Edge Color"))
+        self.actionNode_Color.setText(_translate("MainWindow", "Node Color"))
         self.x1 = 0
         self.y1 = 0
         self.x2 = 0
@@ -206,11 +146,14 @@ class Ui_MainWindow(object):
         self.nbrush = QBrush(QtCore.Qt.black)
         self.psel = QPen(QtCore.Qt.red,5)
         self.bsel = QBrush(QtCore.Qt.red)
-        self.ecolour = 1
-        self.ncolour = 1
+        self.ecolour = QColor(0,0,0)
+        self.ncolour = QColor(0,0,0)
+        self.mm = QColor(255,255,255)
+        self.vc = QColor(255,255,255)
+        self.ind = QColor(255,255,255)
+        self.hp = QColor(255,255,255)
         self.menuFile.triggered[QtWidgets.QAction].connect(self.processtrigger)
-        self.menuEdge_color.triggered[QtWidgets.QAction].connect(self.processtrigger)
-        self.menuNode_color.triggered[QtWidgets.QAction].connect(self.processtrigger)
+        self.menuColor.triggered[QtWidgets.QAction].connect(self.processtrigger)
         self.menuAlgorithms.triggered[QtWidgets.QAction].connect(self.processtrigger)
 
     def find_maximum_matching(self,G,M):
@@ -462,7 +405,7 @@ class Ui_MainWindow(object):
         self.y1 = int(self.a.y())
         if self.function == 1:
             self.graphicsView.scene.addEllipse(self.x1, self.y1, 10, 10, self.npen,self.nbrush)
-            self.node.append(st(self.x1,self.y1,1,1,self.ncolour))
+            self.node.append(st(self.x1,self.y1,1,self.ncolour.name(),self.ncolour.name()))
         if self.function == 3:
             self.f2=0
             for i in range(len(self.node)):
@@ -484,51 +427,15 @@ class Ui_MainWindow(object):
                 self.graphicsView.scene.clear()
                 for i in range(len(self.node)):
                     if self.node[i].fl == 1:
-                        if self.node[i].color == 1:
-                            self.pen = QPen(QtCore.Qt.black,5)
-                            self.brush = QBrush(QtCore.Qt.black)
-                        if self.node[i].color == 2:
-                            self.pen = QPen(QtCore.Qt.yellow,5)
-                            self.brush = QBrush(QtCore.Qt.yellow)
-                        if self.node[i].color == 3:
-                            self.pen = QPen(QtCore.Qt.green,5)
-                            self.brush = QBrush(QtCore.Qt.green)
-                        if self.node[i].color == 4:
-                            self.pen = QPen(QtCore.Qt.blue,5)
-                            self.brush = QBrush(QtCore.Qt.blue)
-                        if self.node[i].color == 5:
-                            self.pen = QPen(QtCore.Qt.red,5)
-                            self.brush = QBrush(QtCore.Qt.red)
-                        if self.node[i].color == 6:
-                            self.color = QColor(205, 22, 212)
-                            self.pen = QPen(self.color,5)
-                            self.brush = QBrush(self.color)
-                        if self.node[i].color == 7:
-                            self.color = QColor(255, 161, 73)
-                            self.pen = QPen(self.color,5)
-                            self.brush = QBrush(self.color)
+                        self.colour = QColor(self.node[i].color)
+                        self.pen = QPen(self.colour,5)
+                        self.brush = QBrush(self.colour)
                         self.graphicsView.scene.addEllipse(self.node[i].x,self.node[i].y,10,10,self.pen,self.brush)
                 for i in range(len(self.edge)):
                     if self.edge[i].fl == 1:
-                        if self.edge[i].color == 1:
-                            self.pen = QPen(QtCore.Qt.black,5)
-                            self.brush = QBrush(QtCore.Qt.black)
-                        if self.edge[i].color == 2:
-                            self.pen = QPen(QtCore.Qt.yellow,5)
-                            self.brush = QBrush(QtCore.Qt.yellow)
-                        if self.edge[i].color == 3:
-                            self.pen = QPen(QtCore.Qt.green,5)
-                            self.brush = QBrush(QtCore.Qt.green)
-                        if self.edge[i].color == 4:
-                            self.pen = QPen(QtCore.Qt.blue,5)
-                            self.brush = QBrush(QtCore.Qt.blue)
-                        if self.edge[i].color == 5:
-                            self.pen = QPen(QtCore.Qt.red,5)
-                            self.brush = QBrush(QtCore.Qt.red)
-                        if self.edge[i].color == 6:
-                            self.color = QColor(205, 22, 212)
-                            self.pen = QPen(self.color,5)
-                            self.brush = QBrush(self.color)
+                        self.colour = QColor(self.edge[i].color)
+                        self.pen = QPen(self.colour,5)
+                        self.brush = QBrush(self.colour)
                         self.graphicsView.scene.addLine(self.node[self.edge[i].x].x+5,self.node[self.edge[i].x].y+5,self.node[self.edge[i].y].x+5,self.node[self.edge[i].y].y+5,self.pen)
         if self.function == 4:
             for i in range(len(self.node)):
@@ -551,51 +458,15 @@ class Ui_MainWindow(object):
                     self.graphicsView.scene.clear()
                     for i in range(len(self.node)):
                         if self.node[i].fl == 1:
-                            if self.node[i].color == 1:
-                                self.pen = QPen(QtCore.Qt.black,5)
-                                self.brush = QBrush(QtCore.Qt.black)
-                            if self.node[i].color == 2:
-                                self.pen = QPen(QtCore.Qt.yellow,5)
-                                self.brush = QBrush(QtCore.Qt.yellow)
-                            if self.node[i].color == 3:
-                                self.pen = QPen(QtCore.Qt.green,5)
-                                self.brush = QBrush(QtCore.Qt.green)
-                            if self.node[i].color == 4:
-                                self.pen = QPen(QtCore.Qt.blue,5)
-                                self.brush = QBrush(QtCore.Qt.blue)
-                            if self.node[i].color == 5:
-                                self.pen = QPen(QtCore.Qt.red,5)
-                                self.brush = QBrush(QtCore.Qt.red)
-                            if self.node[i].color == 6:
-                                self.color = QColor(205, 22, 212)
-                                self.pen = QPen(self.color,5)
-                                self.brush = QBrush(self.color)
-                            if self.node[i].color == 7:
-                                self.color = QColor(255, 161, 73)
-                                self.pen = QPen(self.color,5)
-                                self.brush = QBrush(self.color)
+                            self.colour = QColor(self.node[i].color)
+                            self.pen = QPen(self.colour,5)
+                            self.brush = QBrush(self.colour)
                             self.graphicsView.scene.addEllipse(self.node[i].x,self.node[i].y,10,10,self.pen,self.brush)
                     for i in range(len(self.edge)):
                         if self.edge[i].fl == 1:
-                            if self.edge[i].color == 1:
-                                self.pen = QPen(QtCore.Qt.black,5)
-                                self.brush = QBrush(QtCore.Qt.black)
-                            if self.edge[i].color == 2:
-                                self.pen = QPen(QtCore.Qt.yellow,5)
-                                self.brush = QBrush(QtCore.Qt.yellow)
-                            if self.edge[i].color == 3:
-                                self.pen = QPen(QtCore.Qt.green,5)
-                                self.brush = QBrush(QtCore.Qt.green)
-                            if self.edge[i].color == 4:
-                                self.pen = QPen(QtCore.Qt.blue,5)
-                                self.brush = QBrush(QtCore.Qt.blue)
-                            if self.edge[i].color == 5:
-                                self.pen = QPen(QtCore.Qt.red,5)
-                                self.brush = QBrush(QtCore.Qt.red)
-                            if self.edge[i].color == 6:
-                                self.color = QColor(205, 22, 212)
-                                self.pen = QPen(self.color,5)
-                                self.brush = QBrush(self.color)
+                            self.colour = QColor(self.edge[i].color)
+                            self.pen = QPen(self.colour,5)
+                            self.brush = QBrush(self.colour)
                             self.graphicsView.scene.addLine(self.node[self.edge[i].x].x+5,self.node[self.edge[i].x].y+5,self.node[self.edge[i].y].x+5,self.node[self.edge[i].y].y+5,self.pen)
                     self.s1 = -1
                     self.s2 = -1
@@ -609,15 +480,17 @@ class Ui_MainWindow(object):
                     
                     
     def blos(self):
+        ton = QColorDialog.getColor()
+        self.mm = ton.name()
         if self.function == 5:
             G = nx.Graph()
             for ii in range(len(self.node)):
-                if self.node[ii].color == 5 or 6 or 7:
+                if self.node[ii].color == self.mm or self.vc or self.ind or self.mc:
                     self.node[ii].color = self.node[ii].pcolor
                 if self.node[ii].fl == 1:
                     G.add_node((self.node[ii].x,self.node[ii].y))
             for ii in range(len(self.edge)):
-                if self.edge[ii].color == 5 or 6:
+                if self.edge[ii].color == self.mm or self.hp:
                     self.edge[ii].color = self.edge[ii].pcolor
                 if self.edge[ii].fl == 1:
                     G.add_edge((self.node[self.edge[ii].x].x,self.node[self.edge[ii].x].y),(self.node[self.edge[ii].y].x,self.node[self.edge[ii].y].y))
@@ -627,60 +500,24 @@ class Ui_MainWindow(object):
                 for i in range(len(self.node)):
                     if ii==(self.node[i].x,self.node[i].y):
                         self.node[i].pcolor = self.node[i].color
-                        self.node[i].color = 5
+                        self.node[i].color = self.mm
             for ii in MM.edges():
                 for i in range(len(self.edge)):
                     if ii==((self.node[self.edge[i].x].x,self.node[self.edge[i].x].y),(self.node[self.edge[i].y].x,self.node[self.edge[i].y].y)) or ii==((self.node[self.edge[i].y].x,self.node[self.edge[i].y].y),(self.node[self.edge[i].x].x,self.node[self.edge[i].x].y)):
                         self.edge[i].pcolor = self.edge[i].color
-                        self.edge[i].color = 5
+                        self.edge[i].color = self.mm
             self.graphicsView.scene.clear()
             for i in range(len(self.node)):
                 if self.node[i].fl == 1:
-                    if self.node[i].color == 1:
-                        self.pen = QPen(QtCore.Qt.black,5)
-                        self.brush = QBrush(QtCore.Qt.black)
-                    if self.node[i].color == 2:
-                        self.pen = QPen(QtCore.Qt.yellow,5)
-                        self.brush = QBrush(QtCore.Qt.yellow)
-                    if self.node[i].color == 3:
-                        self.pen = QPen(QtCore.Qt.green,5)
-                        self.brush = QBrush(QtCore.Qt.green)
-                    if self.node[i].color == 4:
-                        self.pen = QPen(QtCore.Qt.blue,5)
-                        self.brush = QBrush(QtCore.Qt.blue)
-                    if self.node[i].color == 5:
-                        self.pen = QPen(QtCore.Qt.red,5)
-                        self.brush = QBrush(QtCore.Qt.red)
-                    if self.node[i].color == 6:
-                        self.color = QColor(205, 22, 212)
-                        self.pen = QPen(self.color,5)
-                        self.brush = QBrush(self.color)
-                    if self.node[i].color == 7:
-                        self.color = QColor(255, 161, 73)
-                        self.pen = QPen(self.color,5)
-                        self.brush = QBrush(self.color)
+                    self.colour = QColor(self.node[i].color)
+                    self.pen = QPen(self.colour,5)
+                    self.brush = QBrush(self.colour)
                     self.graphicsView.scene.addEllipse(self.node[i].x,self.node[i].y,10,10,self.pen,self.brush)
             for i in range(len(self.edge)):
                 if self.edge[i].fl == 1:
-                    if self.edge[i].color == 1:
-                        self.pen = QPen(QtCore.Qt.black,5)
-                        self.brush = QBrush(QtCore.Qt.black)
-                    if self.edge[i].color == 2:
-                        self.pen = QPen(QtCore.Qt.yellow,5)
-                        self.brush = QBrush(QtCore.Qt.yellow)
-                    if self.edge[i].color == 3:
-                        self.pen = QPen(QtCore.Qt.green,5)
-                        self.brush = QBrush(QtCore.Qt.green)
-                    if self.edge[i].color == 4:
-                        self.pen = QPen(QtCore.Qt.blue,5)
-                        self.brush = QBrush(QtCore.Qt.blue)
-                    if self.edge[i].color == 5:
-                        self.pen = QPen(QtCore.Qt.red,5)
-                        self.brush = QBrush(QtCore.Qt.red)
-                    if self.edge[i].color == 6:
-                        self.color = QColor(205, 22, 212)
-                        self.pen = QPen(self.color,5)
-                        self.brush = QBrush(self.color)
+                    self.colour = QColor(self.edge[i].color)
+                    self.pen = QPen(self.colour,5)
+                    self.brush = QBrush(self.colour)
                     self.graphicsView.scene.addLine(self.node[self.edge[i].x].x+5,self.node[self.edge[i].x].y+5,self.node[self.edge[i].y].x+5,self.node[self.edge[i].y].y+5,self.pen)
 
     def move(self,event):
@@ -712,58 +549,22 @@ class Ui_MainWindow(object):
                 if self.f1==1:
                     if self.f2==1:
                             self.graphicsView.scene.addLine(self.node[self.min1].x+5,self.node[self.min1].y+5,self.node[self.min2].x+5,self.node[self.min2].y+5,self.epen)
-                            self.edge.append(st(self.min1,self.min2,1,1,self.ecolour))
+                            self.edge.append(st(self.min1,self.min2,1,self.ecolour.name(),self.ecolour.name()))
         if self.function == 6:
             self.node[self.a3].x = self.x2
             self.node[self.a3].y = self.y2
             self.graphicsView.scene.clear()
             for i in range(len(self.node)):
                 if self.node[i].fl == 1:
-                    if self.node[i].color == 1:
-                        self.pen = QPen(QtCore.Qt.black,5)
-                        self.brush = QBrush(QtCore.Qt.black)
-                    if self.node[i].color == 2:
-                        self.pen = QPen(QtCore.Qt.yellow,5)
-                        self.brush = QBrush(QtCore.Qt.yellow)
-                    if self.node[i].color == 3:
-                        self.pen = QPen(QtCore.Qt.green,5)
-                        self.brush = QBrush(QtCore.Qt.green)
-                    if self.node[i].color == 4:
-                        self.pen = QPen(QtCore.Qt.blue,5)
-                        self.brush = QBrush(QtCore.Qt.blue)
-                    if self.node[i].color == 5:
-                        self.pen = QPen(QtCore.Qt.red,5)
-                        self.brush = QBrush(QtCore.Qt.red)
-                    if self.node[i].color == 6:
-                        self.color = QColor(205, 22, 212)
-                        self.pen = QPen(self.color,5)
-                        self.brush = QBrush(self.color)
-                    if self.node[i].color == 7:
-                        self.color = QColor(255, 161, 73)
-                        self.pen = QPen(self.color,5)
-                        self.brush = QBrush(self.color)
+                    self.colour = QColor(self.node[i].color)
+                    self.pen = QPen(self.colour,5)
+                    self.brush = QBrush(self.colour)
                     self.graphicsView.scene.addEllipse(self.node[i].x,self.node[i].y,10,10,self.pen,self.brush)
             for i in range(len(self.edge)):
                 if self.edge[i].fl == 1:
-                    if self.edge[i].color == 1:
-                        self.pen = QPen(QtCore.Qt.black,5)
-                        self.brush = QBrush(QtCore.Qt.black)
-                    if self.edge[i].color == 2:
-                        self.pen = QPen(QtCore.Qt.yellow,5)
-                        self.brush = QBrush(QtCore.Qt.yellow)
-                    if self.edge[i].color == 3:
-                        self.pen = QPen(QtCore.Qt.green,5)
-                        self.brush = QBrush(QtCore.Qt.green)
-                    if self.edge[i].color == 4:
-                        self.pen = QPen(QtCore.Qt.blue,5)
-                        self.brush = QBrush(QtCore.Qt.blue)
-                    if self.edge[i].color == 5:
-                        self.pen = QPen(QtCore.Qt.red,5)
-                        self.brush = QBrush(QtCore.Qt.red)
-                    if self.edge[i].color == 6:
-                        self.color = QColor(205, 22, 212)
-                        self.pen = QPen(self.color,5)
-                        self.brush = QBrush(self.color)
+                    self.colour = QColor(self.edge[i].color)
+                    self.pen = QPen(self.colour,5)
+                    self.brush = QBrush(self.colour)
                     self.graphicsView.scene.addLine(self.node[self.edge[i].x].x+5,self.node[self.edge[i].x].y+5,self.node[self.edge[i].y].x+5,self.node[self.edge[i].y].y+5,self.pen)
     
     def save(self):
@@ -810,64 +611,32 @@ class Ui_MainWindow(object):
             x = int(fil.readline())
             y = int(fil.readline())
             fl = int(fil.readline())
-            pcol = int(fil.readline())
-            col = int(fil.readline())
+            pcol = fil.read(7)
+            a = fil.readline()
+            col = fil.read(7)
+            a = fil.readline()
             self.node.append(st(x,y,fl,pcol,col))
         ne = int(fil.readline())
         for i in range(ne):
             x = int(fil.readline())
             y = int(fil.readline())
             fl = int(fil.readline())
-            pcol = int(fil.readline())
-            col = int(fil.readline())
+            pcol = fil.read(7)
+            a = fil.readline()
+            col = fil.read(7)
+            a = fil.readline()
             self.edge.append(st(x,y,fl,pcol,col))
         for i in range(len(self.node)):
             if self.node[i].fl == 1:
-                if self.node[i].color == 1:
-                    self.pen = QPen(QtCore.Qt.black,5)
-                    self.brush = QBrush(QtCore.Qt.black)
-                if self.node[i].color == 2:
-                    self.pen = QPen(QtCore.Qt.yellow,5)
-                    self.brush = QBrush(QtCore.Qt.yellow)
-                if self.node[i].color == 3:
-                    self.pen = QPen(QtCore.Qt.green,5)
-                    self.brush = QBrush(QtCore.Qt.green)
-                if self.node[i].color == 4:
-                    self.pen = QPen(QtCore.Qt.blue,5)
-                    self.brush = QBrush(QtCore.Qt.blue)
-                if self.node[i].color == 5:
-                    self.pen = QPen(QtCore.Qt.red,5)
-                    self.brush = QBrush(QtCore.Qt.red)
-                if self.node[i].color == 6:
-                    self.color = QColor(205, 22, 212)
-                    self.pen = QPen(self.color,5)
-                    self.brush = QBrush(self.color) 
-                if self.node[i].color == 7:
-                    self.color = QColor(255, 161, 73)
-                    self.pen = QPen(self.color,5)
-                    self.brush = QBrush(self.color)                      
+                self.colour = QColor(self.node[i].color)
+                self.pen = QPen(self.colour,5)
+                self.brush = QBrush(self.colour)                      
                 self.graphicsView.scene.addEllipse(self.node[i].x,self.node[i].y,10,10,self.pen,self.brush)
         for i in range(len(self.edge)):
             if self.edge[i].fl == 1:
-                if self.edge[i].color == 1:
-                    self.pen = QPen(QtCore.Qt.black,5)
-                    self.brush = QBrush(QtCore.Qt.black)
-                if self.edge[i].color == 2:
-                    self.pen = QPen(QtCore.Qt.yellow,5)
-                    self.brush = QBrush(QtCore.Qt.yellow)
-                if self.edge[i].color == 3:
-                    self.pen = QPen(QtCore.Qt.green,5)
-                    self.brush = QBrush(QtCore.Qt.green)
-                if self.edge[i].color == 4:
-                    self.pen = QPen(QtCore.Qt.blue,5)
-                    self.brush = QBrush(QtCore.Qt.blue)
-                if self.edge[i].color == 5:
-                    self.pen = QPen(QtCore.Qt.red,5)
-                    self.brush = QBrush(QtCore.Qt.red)
-                if self.edge[i].color == 6:
-                    self.color = QColor(205, 22, 212)
-                    self.pen = QPen(self.color,5)
-                    self.brush = QBrush(self.color)
+                self.colour = QColor(self.edge[i].color)
+                self.pen = QPen(self.colour,5)
+                self.brush = QBrush(self.colour)
                 self.graphicsView.scene.addLine(self.node[self.edge[i].x].x+5,self.node[self.edge[i].x].y+5,self.node[self.edge[i].y].x+5,self.node[self.edge[i].y].y+5,self.pen)
 
     #min vertex color problem start
@@ -895,7 +664,19 @@ class Ui_MainWindow(object):
             return False
 
         for i in range(self.l):
-            self.node[i].color = colour[i]
+            if colour[i] == 1:
+                ton = QColor(0,0,0)
+            if colour[i] == 2:
+                ton = QColor(56,27,245)
+            if colour[i] == 3:
+                ton = QColor(51,255,51)
+            if colour[i] == 4:
+                ton = QColor(255,51,153)
+            if colour[i] == 5:
+                ton = QColor(255,255,51)
+            if colour[i] == 6:
+                ton = QColor(27,245,230)
+            self.node[i].color = ton.name()
         return True
 
 
@@ -903,7 +684,7 @@ class Ui_MainWindow(object):
         self.l = 0
         A = nx.Graph()
         for ii in range(len(self.node)):
-            if self.node[ii].color == 5 or 6 or 7:
+            if self.node[ii].color == self.mm or self.vc or self.iss or self.mc:
                 self.node[ii].color = self.node[ii].pcolor
             if self.node[ii].fl == 1:
                 A.add_node((self.node[ii].x,self.node[ii].y))
@@ -911,7 +692,7 @@ class Ui_MainWindow(object):
 
         self.mat = [[0 for i in range(self.l)] for j in range(self.l)]
         for ii in range(len(self.edge)):
-            if self.edge[ii].color == 5 or 6:
+            if self.edge[ii].color == self.mm or self.hp:
                 self.edge[ii].color = self.edge[ii].pcolor
             if self.edge[ii].fl == 1:
                 A.add_edge((self.node[self.edge[ii].x].x,self.node[self.edge[ii].x].y),(self.node[self.edge[ii].y].x,self.node[self.edge[ii].y].y))
@@ -921,51 +702,15 @@ class Ui_MainWindow(object):
         self.graphicsView.scene.clear()
         for i in range(len(self.node)):
             if self.node[i].fl == 1:
-                if self.node[i].color == 1:
-                    self.pen = QPen(QtCore.Qt.black,5)
-                    self.brush = QBrush(QtCore.Qt.black)
-                if self.node[i].color == 2:
-                    self.pen = QPen(QtCore.Qt.yellow,5)
-                    self.brush = QBrush(QtCore.Qt.yellow)
-                if self.node[i].color == 3:
-                    self.pen = QPen(QtCore.Qt.green,5)
-                    self.brush = QBrush(QtCore.Qt.green)
-                if self.node[i].color == 4:
-                    self.pen = QPen(QtCore.Qt.blue,5)
-                    self.brush = QBrush(QtCore.Qt.blue)
-                if self.node[i].color == 5:
-                    self.pen = QPen(QtCore.Qt.red,5)
-                    self.brush = QBrush(QtCore.Qt.red)
-                if self.node[i].color == 6:
-                    self.color = QColor(205, 22, 212)
-                    self.pen = QPen(self.color,5)
-                    self.brush = QBrush(self.color) 
-                if self.node[i].color == 7:
-                    self.color = QColor(255, 161, 73)
-                    self.pen = QPen(self.color,5)
-                    self.brush = QBrush(self.color)                   
+                self.colour = QColor(self.node[i].color)
+                self.pen = QPen(self.colour,5)
+                self.brush = QBrush(self.colour)         
                 self.graphicsView.scene.addEllipse(self.node[i].x,self.node[i].y,10,10,self.pen,self.brush)
         for i in range(len(self.edge)):
             if self.edge[i].fl == 1:
-                if self.edge[i].color == 1:
-                    self.pen = QPen(QtCore.Qt.black,5)
-                    self.brush = QBrush(QtCore.Qt.black)
-                if self.edge[i].color == 2:
-                    self.pen = QPen(QtCore.Qt.yellow,5)
-                    self.brush = QBrush(QtCore.Qt.yellow)
-                if self.edge[i].color == 3:
-                    self.pen = QPen(QtCore.Qt.green,5)
-                    self.brush = QBrush(QtCore.Qt.green)
-                if self.edge[i].color == 4:
-                    self.pen = QPen(QtCore.Qt.blue,5)
-                    self.brush = QBrush(QtCore.Qt.blue)
-                if self.edge[i].color == 5:
-                    self.pen = QPen(QtCore.Qt.red,5)
-                    self.brush = QBrush(QtCore.Qt.red)
-                if self.edge[i].color == 6:
-                    self.color = QColor(205, 22, 212)
-                    self.pen = QPen(self.color,5)
-                    self.brush = QBrush(self.color)
+                self.colour = QColor(self.edge[i].color)
+                self.pen = QPen(self.colour,5)
+                self.brush = QBrush(self.colour)
                 self.graphicsView.scene.addLine(self.node[self.edge[i].x].x+5,self.node[self.edge[i].x].y+5,self.node[self.edge[i].y].x+5,self.node[self.edge[i].y].y+5,self.pen)
 
 
@@ -984,82 +729,50 @@ class Ui_MainWindow(object):
         return VC
 
     def np2(self):
+        ton = QColorDialog.getColor()
+        self.vc = ton.name()
         A = nx.Graph()
         for ii in range(len(self.node)):
-            if self.node[ii].color == 5 or 6 or 7:
+            if self.node[ii].color == self.mm or self.vc or self.iss or self.mc:
                 self.node[ii].color = self.node[ii].pcolor
             if self.node[ii].fl == 1:
                 A.add_node(ii)
         for ii in range(len(self.edge)):
-            if self.edge[ii].color == 5 or 6:
+            if self.edge[ii].color == self.mm or self.hp:
                 self.edge[ii].color = self.edge[ii].pcolor
             if self.edge[ii].fl == 1:
                 A.add_edge(self.edge[ii].x,self.edge[ii].y)
         VC = self.approx(A)
         for i in range(len(VC)):
             self.node[VC[i]].pcolor = self.node[VC[i]].color
-            self.node[VC[i]].color = 6
+            self.node[VC[i]].color = self.vc
         self.graphicsView.scene.clear()
         for i in range(len(self.node)):
             if self.node[i].fl == 1:
-                if self.node[i].color == 1:
-                    self.pen = QPen(QtCore.Qt.black,5)
-                    self.brush = QBrush(QtCore.Qt.black)
-                if self.node[i].color == 2:
-                    self.pen = QPen(QtCore.Qt.yellow,5)
-                    self.brush = QBrush(QtCore.Qt.yellow)
-                if self.node[i].color == 3:
-                    self.pen = QPen(QtCore.Qt.green,5)
-                    self.brush = QBrush(QtCore.Qt.green)
-                if self.node[i].color == 4:
-                    self.pen = QPen(QtCore.Qt.blue,5)
-                    self.brush = QBrush(QtCore.Qt.blue)
-                if self.node[i].color == 5:
-                    self.pen = QPen(QtCore.Qt.red,5)
-                    self.brush = QBrush(QtCore.Qt.red)
-                if self.node[i].color == 6:
-                    self.color = QColor(205, 22, 212)
-                    self.pen = QPen(self.color,5)
-                    self.brush = QBrush(self.color)
-                if self.node[i].color == 7:
-                    self.color = QColor(255, 161, 73)
-                    self.pen = QPen(self.color,5)
-                    self.brush = QBrush(self.color)
+                self.colour = QColor(self.node[i].color)
+                self.pen = QPen(self.colour,5)
+                self.brush = QBrush(self.colour)
                 self.graphicsView.scene.addEllipse(self.node[i].x,self.node[i].y,10,10,self.pen,self.brush)
         for i in range(len(self.edge)):
             if self.edge[i].fl == 1:
-                if self.edge[i].color == 1:
-                    self.pen = QPen(QtCore.Qt.black,5)
-                    self.brush = QBrush(QtCore.Qt.black)
-                if self.edge[i].color == 2:
-                    self.pen = QPen(QtCore.Qt.yellow,5)
-                    self.brush = QBrush(QtCore.Qt.yellow)
-                if self.edge[i].color == 3:
-                    self.pen = QPen(QtCore.Qt.green,5)
-                    self.brush = QBrush(QtCore.Qt.green)
-                if self.edge[i].color == 4:
-                    self.pen = QPen(QtCore.Qt.blue,5)
-                    self.brush = QBrush(QtCore.Qt.blue)
-                if self.edge[i].color == 5:
-                    self.pen = QPen(QtCore.Qt.red,5)
-                    self.brush = QBrush(QtCore.Qt.red)
-                if self.edge[i].color == 6:
-                    self.color = QColor(205, 22, 212)
-                    self.pen = QPen(self.color,5)
-                    self.brush = QBrush(self.color)
+                self.colour = QColor(self.edge[i].color)
+                self.pen = QPen(self.colour,5)
+                self.brush = QBrush(self.colour)
                 self.graphicsView.scene.addLine(self.node[self.edge[i].x].x+5,self.node[self.edge[i].x].y+5,self.node[self.edge[i].y].x+5,self.node[self.edge[i].y].y+5,self.pen)
 
     def np3(self):
         q = []
+        ton = QColorDialog.getColor()
+        self.iss = ton.name()
         A = nx.Graph()
         for ii in range(len(self.node)):
-            if self.node[ii].color == 5 or 6 or 7:
+            if self.node[ii].color == self.mm or self.vc or self.iss or self.mc:
                 self.node[ii].color = self.node[ii].pcolor
             if self.node[ii].fl == 1:
                 A.add_node(ii)
                 q.append(1)
         for ii in range(len(self.edge)):
-            if self.edge[ii].color == 5 or 6:
+            if self.edge[ii].color == self.mm or self.hp:
                 self.edge[ii].color = self.edge[ii].pcolor
             if self.edge[ii].fl == 1:
                 A.add_edge(self.edge[ii].x,self.edge[ii].y)
@@ -1069,55 +782,19 @@ class Ui_MainWindow(object):
         for i in range(len(q)):
             if q[i] == 1:
                 self.node[i].pcolor = self.node[i].color
-                self.node[i].color = 7
+                self.node[i].color = self.iss
         self.graphicsView.scene.clear()
         for i in range(len(self.node)):
             if self.node[i].fl == 1:
-                if self.node[i].color == 1:
-                    self.pen = QPen(QtCore.Qt.black,5)
-                    self.brush = QBrush(QtCore.Qt.black)
-                if self.node[i].color == 2:
-                    self.pen = QPen(QtCore.Qt.yellow,5)
-                    self.brush = QBrush(QtCore.Qt.yellow)
-                if self.node[i].color == 3:
-                    self.pen = QPen(QtCore.Qt.green,5)
-                    self.brush = QBrush(QtCore.Qt.green)
-                if self.node[i].color == 4:
-                    self.pen = QPen(QtCore.Qt.blue,5)
-                    self.brush = QBrush(QtCore.Qt.blue)
-                if self.node[i].color == 5:
-                    self.pen = QPen(QtCore.Qt.red,5)
-                    self.brush = QBrush(QtCore.Qt.red)
-                if self.node[i].color == 6:
-                    self.color = QColor(205, 22, 212)
-                    self.pen = QPen(self.color,5)
-                    self.brush = QBrush(self.color)
-                if self.node[i].color == 7:
-                    self.color = QColor(255, 161, 73)
-                    self.pen = QPen(self.color,5)
-                    self.brush = QBrush(self.color)
+                self.colour = QColor(self.node[i].color)
+                self.pen = QPen(self.colour,5)
+                self.brush = QBrush(self.colour)
                 self.graphicsView.scene.addEllipse(self.node[i].x,self.node[i].y,10,10,self.pen,self.brush)
         for i in range(len(self.edge)):
             if self.edge[i].fl == 1:
-                if self.edge[i].color == 1:
-                    self.pen = QPen(QtCore.Qt.black,5)
-                    self.brush = QBrush(QtCore.Qt.black)
-                if self.edge[i].color == 2:
-                    self.pen = QPen(QtCore.Qt.yellow,5)
-                    self.brush = QBrush(QtCore.Qt.yellow)
-                if self.edge[i].color == 3:
-                    self.pen = QPen(QtCore.Qt.green,5)
-                    self.brush = QBrush(QtCore.Qt.green)
-                if self.edge[i].color == 4:
-                    self.pen = QPen(QtCore.Qt.blue,5)
-                    self.brush = QBrush(QtCore.Qt.blue)
-                if self.edge[i].color == 5:
-                    self.pen = QPen(QtCore.Qt.red,5)
-                    self.brush = QBrush(QtCore.Qt.red)
-                if self.edge[i].color == 6:
-                    self.color = QColor(205, 22, 212)
-                    self.pen = QPen(self.color,5)
-                    self.brush = QBrush(self.color)
+                self.colour = QColor(self.edge[i].color)
+                self.pen = QPen(self.colour,5)
+                self.brush = QBrush(self.colour)
                 self.graphicsView.scene.addLine(self.node[self.edge[i].x].x+5,self.node[self.edge[i].x].y+5,self.node[self.edge[i].y].x+5,self.node[self.edge[i].y].y+5,self.pen)
 
     def Safe(self, v, pos, path):  
@@ -1156,14 +833,16 @@ class Ui_MainWindow(object):
             for j in range(len(self.edge)):
                 if self.edge[j].x == path[i] or self.edge[j].y == path[i]:
                     if self.edge[j].y == path[i+1] or self.edge[j].x == path[i+1]:
-                        self.edge[j].color = 6
+                        self.edge[j].color = self.hp
 
 
     def np4(self):
+        ton = QColorDialog.getColor()
+        self.hp = ton.name()
         self.V = 0
         A = nx.Graph()
         for ii in range(len(self.node)):
-            if self.node[ii].color == 5 or 6 or 7:
+            if self.node[ii].color == self.mm or self.vc or self.iss or self.mc:
                 self.node[ii].color = self.node[ii].pcolor
             if self.node[ii].fl == 1:
                 A.add_node((self.node[ii].x,self.node[ii].y))
@@ -1171,7 +850,7 @@ class Ui_MainWindow(object):
 
         self.graph = [[0 for i in range(self.V)] for j in range(self.V)]
         for ii in range(len(self.edge)):
-            if self.edge[ii].color == 5 or 6:
+            if self.edge[ii].color == self.mm or self.hp:
                 self.edge[ii].color = self.edge[ii].pcolor
             if self.edge[ii].fl == 1:
                 A.add_edge((self.node[self.edge[ii].x].x,self.node[self.edge[ii].x].y),(self.node[self.edge[ii].y].x,self.node[self.edge[ii].y].y))
@@ -1181,53 +860,63 @@ class Ui_MainWindow(object):
         self.graphicsView.scene.clear()
         for i in range(len(self.node)):
             if self.node[i].fl == 1:
-                if self.node[i].color == 1:
-                    self.pen = QPen(QtCore.Qt.black,5)
-                    self.brush = QBrush(QtCore.Qt.black)
-                if self.node[i].color == 2:
-                    self.pen = QPen(QtCore.Qt.yellow,5)
-                    self.brush = QBrush(QtCore.Qt.yellow)
-                if self.node[i].color == 3:
-                    self.pen = QPen(QtCore.Qt.green,5)
-                    self.brush = QBrush(QtCore.Qt.green)
-                if self.node[i].color == 4:
-                    self.pen = QPen(QtCore.Qt.blue,5)
-                    self.brush = QBrush(QtCore.Qt.blue)
-                if self.node[i].color == 5:
-                    self.pen = QPen(QtCore.Qt.red,5)
-                    self.brush = QBrush(QtCore.Qt.red)
-                if self.node[i].color == 6:
-                    self.color = QColor(205, 22, 212)
-                    self.pen = QPen(self.color,5)
-                    self.brush = QBrush(self.color) 
-                if self.node[i].color == 7:
-                    self.color = QColor(255, 161, 73)
-                    self.pen = QPen(self.color,5)
-                    self.brush = QBrush(self.color)                   
+                self.colour = QColor(self.node[i].color)
+                self.pen = QPen(self.colour,5)
+                self.brush = QBrush(self.colour)                   
                 self.graphicsView.scene.addEllipse(self.node[i].x,self.node[i].y,10,10,self.pen,self.brush)
         for i in range(len(self.edge)):
             if self.edge[i].fl == 1:
-                if self.edge[i].color == 1:
-                    self.pen = QPen(QtCore.Qt.black,5)
-                    self.brush = QBrush(QtCore.Qt.black)
-                if self.edge[i].color == 2:
-                    self.pen = QPen(QtCore.Qt.yellow,5)
-                    self.brush = QBrush(QtCore.Qt.yellow)
-                if self.edge[i].color == 3:
-                    self.pen = QPen(QtCore.Qt.green,5)
-                    self.brush = QBrush(QtCore.Qt.green)
-                if self.edge[i].color == 4:
-                    self.pen = QPen(QtCore.Qt.blue,5)
-                    self.brush = QBrush(QtCore.Qt.blue)
-                if self.edge[i].color == 5:
-                    self.pen = QPen(QtCore.Qt.red,5)
-                    self.brush = QBrush(QtCore.Qt.red)
-                if self.edge[i].color == 6:
-                    self.color = QColor(205, 22, 212)
-                    self.pen = QPen(self.color,5)
-                    self.brush = QBrush(self.color)
+                self.colour = QColor(self.edge[i].color)
+                self.pen = QPen(self.colour,5)
+                self.brush = QBrush(self.colour)
                 self.graphicsView.scene.addLine(self.node[self.edge[i].x].x+5,self.node[self.edge[i].x].y+5,self.node[self.edge[i].y].x+5,self.node[self.edge[i].y].y+5,self.pen)
 
+    def np5(self):
+        self.l = 0
+        ton = QColorDialog.getColor()
+        self.mc = ton.name()
+        q = []
+        A = nx.Graph()
+        for ii in range(len(self.node)):
+            if self.node[ii].color == self.mm or self.vc or self.iss or self.mc:
+                self.node[ii].color = self.node[ii].pcolor
+            if self.node[ii].fl == 1:
+                A.add_node(ii)
+                self.l = self.l+1
+                q.append(1)
+
+        for ii in range(len(self.edge)):
+            if self.edge[ii].color == self.mm or self.hp:
+                self.edge[ii].color = self.edge[ii].pcolor
+            if self.edge[ii].fl == 1:
+                A.add_edge(self.edge[ii].x,self.edge[ii].y)
+        B = nx.Graph()
+        B = nx.complement(A)
+        VC = self.approx(B)
+        for i in range(len(VC)):
+            q[VC[i]] = 0
+        for i in range(len(q)):
+            if q[i] == 1:
+                self.node[i].pcolor = self.node[i].color
+                self.node[i].color = self.mc
+        for i in range(len(self.edge)):
+                if self.node[self.edge[i].x].color == self.node[self.edge[i].y].color == self.mc:
+                    self.edge[i].pcolor = self.edge[i].color
+                    self.edge[i].color = self.mc
+
+        self.graphicsView.scene.clear()
+        for i in range(len(self.node)):
+            if self.node[i].fl == 1:
+                self.colour = QColor(self.node[i].color)
+                self.pen = QPen(self.colour,5)
+                self.brush = QBrush(self.colour)
+                self.graphicsView.scene.addEllipse(self.node[i].x,self.node[i].y,10,10,self.pen,self.brush)
+        for i in range(len(self.edge)):
+            if self.edge[i].fl == 1:
+                self.colour = QColor(self.edge[i].color)
+                self.pen = QPen(self.colour,5)
+                self.brush = QBrush(self.colour)
+                self.graphicsView.scene.addLine(self.node[self.edge[i].x].x+5,self.node[self.edge[i].x].y+5,self.node[self.edge[i].y].x+5,self.node[self.edge[i].y].y+5,self.pen)
 
 
     def processtrigger(self, q):        
@@ -1250,6 +939,8 @@ class Ui_MainWindow(object):
             self.np3()
         if q.text() == 'Hamiltonian Path':
             self.np4()
+        if q.text() == 'Max Clique':
+            self.np5()
         if q.text() == 'Move node':
             self.function = 6
         if q.text() == 'Save File':
@@ -1260,38 +951,14 @@ class Ui_MainWindow(object):
             self.graphicsView.scene.clear()
             self.node.clear()
             self.edge.clear()
-        if q.toolTip() == 'eBlack':
-            self.ecolour = 1
-            self.epen = QPen(QtCore.Qt.black,5)
-            self.ebrush = QBrush(QtCore.Qt.black)
-        if q.toolTip() == 'eYellow':
-            self.ecolour = 2
-            self.epen = QPen(QtCore.Qt.yellow,5)
-            self.ebrush = QBrush(QtCore.Qt.yellow)
-        if q.toolTip() == 'eGreen':
-            self.ecolour = 3
-            self.epen = QPen(QtCore.Qt.green,5)
-            self.ebrush = QBrush(QtCore.Qt.green)
-        if q.toolTip() == 'eBlue':
-            self.ecolour = 4
-            self.epen = QPen(QtCore.Qt.blue,5)
-            self.ebrush = QBrush(QtCore.Qt.blue)
-        if q.toolTip() == 'nBlack':
-            self.ncolour = 1
-            self.npen = QPen(QtCore.Qt.black,5)
-            self.nbrush = QBrush(QtCore.Qt.black)
-        if q.toolTip() == 'nYellow':
-            self.ncolour = 2
-            self.npen = QPen(QtCore.Qt.yellow,5)
-            self.nbrush = QBrush(QtCore.Qt.yellow)
-        if q.toolTip() == 'nGreen':
-            self.ncolour = 3
-            self.npen = QPen(QtCore.Qt.green,5)
-            self.nbrush = QBrush(QtCore.Qt.green)
-        if q.toolTip() == 'nBlue':
-            self.ncolour = 4
-            self.npen = QPen(QtCore.Qt.blue,5)
-            self.nbrush = QBrush(QtCore.Qt.blue)
+        if q.text() == 'Edge Color':
+            self.ecolour = QColorDialog.getColor()
+            self.epen = QPen(self.ecolour,5)
+            self.ebrush = QBrush(self.ecolour)
+        if q.text() == 'Node Color':
+            self.ncolour = QColorDialog.getColor()
+            self.npen = QPen(self.ncolour,5)
+            self.nbrush = QBrush(self.ncolour)
         self.graphicsView.mousePressEvent = self.pixelselect
         self.graphicsView.mouseReleaseEvent = self.move
 
